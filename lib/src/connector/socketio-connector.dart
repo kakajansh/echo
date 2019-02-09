@@ -1,7 +1,7 @@
-import 'package:echo/src/connector/connector.dart';
-import 'package:echo/src/channel/socketio-channel.dart';
-import 'package:echo/src/channel/socketio-private-channel.dart';
-import 'package:echo/src/channel/socketio-presence-channel.dart';
+import 'package:laravel_echo/src/connector/connector.dart';
+import 'package:laravel_echo/src/channel/socketio-channel.dart';
+import 'package:laravel_echo/src/channel/socketio-private-channel.dart';
+import 'package:laravel_echo/src/channel/socketio-presence-channel.dart';
 
 ///
 /// This class creates a connnector to a Socket.io server.

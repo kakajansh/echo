@@ -1,7 +1,7 @@
-import 'package:echo/src/connector/connector.dart';
-import 'package:echo/src/channel/null-channel.dart';
-import 'package:echo/src/channel/null-private-channel.dart';
-import 'package:echo/src/channel/null-presence-channel.dart';
+import 'package:laravel_echo/src/connector/connector.dart';
+import 'package:laravel_echo/src/channel/null-channel.dart';
+import 'package:laravel_echo/src/channel/null-private-channel.dart';
+import 'package:laravel_echo/src/channel/null-presence-channel.dart';
 
 ///
 /// This class creates a null connector.

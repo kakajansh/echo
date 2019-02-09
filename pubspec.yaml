@@ -1,4 +1,4 @@
-name: echo
+name: laravel_echo
 description: Laravel Echo for your Flutter apps.
 version: 0.0.1
 author: Kakajan SH <mervasdayi@gmail.com>

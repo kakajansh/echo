@@ -1,4 +1,4 @@
-import 'package:echo/src/channel/socketio-channel.dart';
+import 'package:laravel_echo/src/channel/socketio-channel.dart';
 
 ///
 /// This class represents a Socket.io presence channel.

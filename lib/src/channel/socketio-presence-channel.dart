@@ -1,5 +1,5 @@
-import 'package:echo/src/channel/presence-channel.dart';
-import 'package:echo/src/channel/socketio-private-channel.dart';
+import 'package:laravel_echo/src/channel/presence-channel.dart';
+import 'package:laravel_echo/src/channel/socketio-private-channel.dart';
 
 ///
 /// This class represents a Socket.io presence channel.
