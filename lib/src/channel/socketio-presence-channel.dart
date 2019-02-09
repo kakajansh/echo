@@ -1,5 +1,5 @@
-import './presence-channel.dart';
-import './socketio-private-channel.dart';
+import 'package:echo/src/channel/presence-channel.dart';
+import 'package:echo/src/channel/socketio-private-channel.dart';
 
 ///
 /// This class represents a Socket.io presence channel.

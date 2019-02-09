@@ -1,5 +1,5 @@
-import './null-channel.dart';
-import './presence-channel.dart';
+import 'package:echo/src/channel/null-channel.dart';
+import 'package:echo/src/channel/presence-channel.dart';
 
 ///
 /// This class represents a null presence channel.

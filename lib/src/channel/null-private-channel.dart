@@ -1,4 +1,4 @@
-import './null-channel.dart';
+import 'package:echo/src/channel/null-channel.dart';
 
 ///
 /// This class represents a null private channel.

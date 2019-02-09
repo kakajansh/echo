@@ -1,9 +1,9 @@
 library echo;
 
-import './channel/channel.dart';
-import './channel/presence-channel.dart';
-import './connector/socketio-connector.dart';
-import './connector/null-connector.dart';
+import 'package:echo/src/channel/channel.dart';
+import 'package:echo/src/channel/presence-channel.dart';
+import 'package:echo/src/connector/socketio-connector.dart';
+import 'package:echo/src/connector/null-connector.dart';
 
 ///
 /// This class is the primary API for interacting with broadcasting.

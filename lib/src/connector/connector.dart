@@ -1,5 +1,5 @@
-import '../channel/channel.dart';
-import '../channel/presence-channel.dart';
+import 'package:echo/src/channel/channel.dart';
+import 'package:echo/src/channel/presence-channel.dart';
 
 abstract class Connector {
   /// Default connector options.
