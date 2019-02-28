@@ -3,6 +3,7 @@ library laravel_echo;
 import 'package:laravel_echo/src/channel/channel.dart';
 import 'package:laravel_echo/src/channel/presence-channel.dart';
 import 'package:laravel_echo/src/connector/socketio-connector.dart';
+import 'package:laravel_echo/src/connector/pusher-connector.dart';
 import 'package:laravel_echo/src/connector/null-connector.dart';
 
 ///
@@ -30,7 +31,9 @@ class Echo {
 
   /// Create a new connection.
   void connect() {
-    if (this.options['broadcaster'] == 'socket.io') {
+    if (this.options['broadcaster'] == 'pusher') {
+      this.connector = new PusherConnector(this.options);
+    } else if (this.options['broadcaster'] == 'socket.io') {
       this.connector = new SocketIoConnector(this.options);
     } else if (this.options['broadcaster'] == 'null') {
       this.connector = new NullConnector(this.options);
@@ -67,5 +70,5 @@ class Echo {
     return this.connector.socketId();
   }
 
-  // TODO:
+// TODO:
 }

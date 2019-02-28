@@ -1,0 +1,92 @@
+import 'package:laravel_echo/src/channel/channel.dart';
+import 'package:laravel_echo/src/connector/connector.dart';
+import 'package:laravel_echo/src/channel/presence-channel.dart';
+import 'package:laravel_echo/src/channel/pusher-channel.dart';
+import 'package:laravel_echo/src/channel/pusher-private-channel.dart';
+import 'package:laravel_echo/src/channel/pusher-presence-channel.dart';
+
+///
+/// This class creates a null connector.
+///
+class PusherConnector extends Connector {
+  /// The Pusher connection instance.
+  dynamic pusher;
+
+  /// All of the subscribed channel names.
+  dynamic channels = {};
+
+  PusherConnector(dynamic options) : super(options);
+
+  /// Create a fresh connection.\
+  @override
+  void connect() {
+    this.pusher = this.options.client;
+
+    return this.pusher;
+  }
+
+  /// Listen for an event on a channel instance.
+  PusherChannel listen(String name, String event, Function callback) {
+    return this.channel(name).listen(event, callback);
+  }
+
+  /// Get a channel instance by name.
+  @override
+  PusherChannel channel(String name) {
+    if (this.channels[name] == null) {
+      this.channels[name] = new PusherChannel(this.pusher, name, this.options);
+    }
+    return this.channels[name];
+  }
+
+  /// Get a channel instance by name.
+  @override
+  Channel privateChannel(String name) {
+    if (this.channels['private-' + name]) {
+      this.channels['private-' + name] = new PusherPrivateChannel(
+          this.pusher, 'private-' + name, this.options);
+    }
+    return this.channels['private-' + name];
+  }
+
+  /// Get a presence channel instance by name.
+  @override
+  PresenceChannel presenceChannel(String name) {
+    if (this.channels['presence-' + name]) {
+      this.channels['presence-' + name] = new PusherPresenceChannel(
+          this.pusher, 'presence' + name, this.options);
+    }
+    return this.channels['presence-' + name];
+  }
+
+  /// Leave the given channel, as well as its private and presence variants.
+  @override
+  void leave(String name) {
+    dynamic channels = [name, 'private-' + name, 'presence-' + name];
+
+    channels.forEach((name) {
+      this.leaveChannel(name);
+    });
+  }
+
+  /// Leave the given channel.
+  @override
+  void leaveChannel(String name) {
+    if (this.channels[name] != null) {
+      this.channels[name].unsubscribe();
+      this.channels.remove(name);
+    }
+  }
+
+  /// Get the socket ID for the connection.
+  @override
+  String socketId() {
+    return this.pusher.connection.socket_id;
+  }
+
+  /// Disconnect Pusher connection.
+  @override
+  void disconnect() {
+    this.pusher.disconect();
+  }
+}
