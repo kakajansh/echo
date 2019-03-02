@@ -17,10 +17,10 @@ class PusherConnector extends Connector {
 
   PusherConnector(dynamic options) : super(options);
 
-  /// Create a fresh connection.\
+  /// Create a fresh Pusher connection.
   @override
   void connect() {
-    this.pusher = this.options.client;
+    this.pusher = this.options['client'];
 
     return this.pusher;
   }
@@ -36,33 +36,40 @@ class PusherConnector extends Connector {
     if (this.channels[name] == null) {
       this.channels[name] = new PusherChannel(this.pusher, name, this.options);
     }
+
     return this.channels[name];
   }
 
-  /// Get a channel instance by name.
+  /// Get a private channel instance by name.
   @override
   Channel privateChannel(String name) {
-    if (this.channels['private-' + name]) {
-      this.channels['private-' + name] = new PusherPrivateChannel(
-          this.pusher, 'private-' + name, this.options);
+    if (this.channels['private-$name'] == null) {
+      this.channels['private-$name'] = new PusherPrivateChannel(
+        this.pusher,
+        'private-$name',
+        this.options,
+      );
     }
-    return this.channels['private-' + name];
+    return this.channels['private-$name'];
   }
 
   /// Get a presence channel instance by name.
   @override
   PresenceChannel presenceChannel(String name) {
-    if (this.channels['presence-' + name]) {
-      this.channels['presence-' + name] = new PusherPresenceChannel(
-          this.pusher, 'presence' + name, this.options);
+    if (this.channels['presence-$name'] == null) {
+      this.channels['presence-$name'] = new PusherPresenceChannel(
+        this.pusher,
+        'presence-$name',
+        this.options,
+      );
     }
-    return this.channels['presence-' + name];
+    return this.channels['presence-$name'];
   }
 
   /// Leave the given channel, as well as its private and presence variants.
   @override
   void leave(String name) {
-    dynamic channels = [name, 'private-' + name, 'presence-' + name];
+    dynamic channels = [name, 'private-$name', 'presence-$name'];
 
     channels.forEach((name) {
       this.leaveChannel(name);

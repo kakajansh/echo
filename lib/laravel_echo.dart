@@ -20,8 +20,6 @@ class Echo {
   Echo(dynamic options) {
     this.options = options;
     this.connect();
-    // TODO:
-    // this.registerInterceptors();
   }
 
   /// Get a channel instance by name.
@@ -69,6 +67,4 @@ class Echo {
   String sockedId() {
     return this.connector.socketId();
   }
-
-// TODO:
 }

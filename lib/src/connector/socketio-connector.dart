@@ -16,6 +16,7 @@ class SocketIoConnector extends Connector {
   SocketIoConnector(dynamic options) : super(options);
 
   /// Create a fresh Socket.io connection.
+  @override
   void connect() {
     this.socket = this.getSocketIO();
 
@@ -38,6 +39,7 @@ class SocketIoConnector extends Connector {
   }
 
   /// Get a channel instance by name.
+  @override
   SocketIoChannel channel(String name) {
     if (this.channels[name] == null) {
       this.channels[name] = new SocketIoChannel(this.socket, name, this.options);
@@ -47,34 +49,37 @@ class SocketIoConnector extends Connector {
   }
 
   /// Get a private channel instance by name.
+  @override
   SocketIoPrivateChannel privateChannel(String name) {
-    if (this.channels['private-' + name]) {
-      this.channels['private-' + name] = new SocketIoPrivateChannel(
+    if (this.channels['private-$name'] == null) {
+      this.channels['private-$name'] = new SocketIoPrivateChannel(
         this.channel,
-        'private-' + name,
+        'private-$name',
         this.options,
       );
     }
 
-    return this.channels['private-' + name];
+    return this.channels['private-$name'];
   }
 
   /// Get a presence channel instance by name.
+  @override
   SocketIoPresenceChannel presenceChannel(String name) {
-    if (this.channels['presence-' + name]) {
-      this.channels['presence-' + name] = new SocketIoPresenceChannel(
+    if (this.channels['presence-$name'] == null) {
+      this.channels['presence-$name'] = new SocketIoPresenceChannel(
         this.socket,
-        'presence-' + name,
+        'presence-$name',
         this.options,
       );
     }
 
-    return this.channels['presence-' + name];
+    return this.channels['presence-$name'];
   }
 
   /// Leave the given channel, as well as its private and presence variants.
+  @override
   void leave(String name) {
-    dynamic channels = [name, 'private-' + name, 'presence-' + name];
+    dynamic channels = [name, 'private-$name', 'presence-$name'];
 
     channels.forEach((name) {
       this.leaveChannel(name);
@@ -82,6 +87,7 @@ class SocketIoConnector extends Connector {
   }
 
   /// Leave the given channel.
+  @override
   void leaveChannel(String name) {
     if (this.channels[name] != null) {
       this.channels[name].unsubscribe();
@@ -90,11 +96,13 @@ class SocketIoConnector extends Connector {
   }
 
   /// Get the socket ID for the connection.
+  @override
   String socketId() {
     return this.socket.id;
   }
 
   /// Disconnect Socketio connection.
+  @override
   void disconnect() {
     this.socket.disconnect();
   }

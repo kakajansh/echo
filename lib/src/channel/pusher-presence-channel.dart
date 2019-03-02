@@ -1,10 +1,10 @@
+import 'package:laravel_echo/src/channel/pusher-channel.dart';
 import 'package:laravel_echo/src/channel/presence-channel.dart';
-import 'package:laravel_echo/src/channel/pusher-private-channel.dart';
 
 ///
 /// This class represents a Pusher presence channel.
 ///
-class PusherPresenceChannel extends PusherPrivateChannel
+class PusherPresenceChannel extends PusherChannel
     implements PresenceChannel {
   PusherPresenceChannel(pusher, String name, options)
       : super(pusher, name, options);
@@ -35,4 +35,10 @@ class PusherPresenceChannel extends PusherPrivateChannel
     return this;
   }
 
+  /// Trigger client event on the channel.
+  PusherPresenceChannel whisper(String eventName, dynamic data) {
+    this.pusher.channels[this.name].trigger('client-$eventName', data);
+
+    return this;
+  }
 }

@@ -20,9 +20,6 @@ class PusherChannel extends Channel {
   /// The subcription of the channel.
   dynamic subcription;
 
-  /// The event callbacks applied to the channel.
-  dynamic events = {};
-
   /// Create a new class instance.
   PusherChannel(dynamic pusher, String name, dynamic options) {
     this.name = name;

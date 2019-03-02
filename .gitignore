@@ -1,10 +1,22 @@
-.DS_Store
+# Don’t commit the following directories created by pub.
 .dart_tool/
-
-.packages
+.buildlog
 .pub/
-
 build/
-ios/.generated/
-ios/Flutter/Generated.xcconfig
-ios/Runner/GeneratedPluginRegistrant.*
+packages
+.packages
+
+# Or the files created by dart2js.
+*.dart.js
+*.js_
+*.js.deps
+*.js.map
+
+# Include when developing application packages.
+pubspec.lock
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/

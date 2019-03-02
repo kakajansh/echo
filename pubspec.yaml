@@ -1,6 +1,6 @@
 name: laravel_echo
 description: Laravel Echo for your Flutter apps.
-version: 0.0.1
+version: 0.1.0
 author: Kakajan SH <mervasdayi@gmail.com>
 homepage: https://github.com/kakajansh/echo
 
@@ -10,7 +10,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  pusher: ^1.0.0
 
 dev_dependencies:
   flutter_test:

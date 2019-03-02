@@ -50,6 +50,7 @@ class SocketIoChannel extends Channel {
   }
 
   /// Listen for an event on the channel instance.
+  @override
   SocketIoChannel listen(String event, Function callback) {
     this.on(this.eventFormatter.format(event), callback);
 
@@ -57,6 +58,7 @@ class SocketIoChannel extends Channel {
   }
 
   /// Stop listening for an event on the channel instance.
+  @override
   SocketIoChannel stopListening(String event) {
     dynamic name = this.eventFormatter.format(event);
     this.socket.off(name);
