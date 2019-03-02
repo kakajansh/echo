@@ -5,6 +5,8 @@
 build/
 packages
 .packages
+/android
+/ios
 
 # Or the files created by dart2js.
 *.dart.js
