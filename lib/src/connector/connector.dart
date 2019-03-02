@@ -8,7 +8,7 @@ abstract class Connector {
       'headers': {}
     },
     'authEndpoint': '/broadcasting/auth',
-    'broadcaster': 'socketio',
+    'broadcaster': 'socket.io',
     'crsfToken': null,
     'host': null,
     'key': null,
