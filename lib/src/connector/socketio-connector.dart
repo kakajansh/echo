@@ -13,14 +13,14 @@ class SocketIoConnector extends Connector {
   /// All of the subscribed channel names.
   dynamic channels = {};
 
-  SocketIoConnector(dynamic options) : super(options);
+  SocketIoConnector(dynamic options) : super(options){
+    this.connect();
+  }
 
   /// Create a fresh Socket.io connection.
   @override
   void connect() {
     this.socket = this.getSocketIO();
-
-    return this.socket;
   }
 
   /// Get socket.io module from options.
