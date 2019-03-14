@@ -53,7 +53,7 @@ class SocketIoConnector extends Connector {
   SocketIoPrivateChannel privateChannel(String name) {
     if (this.channels['private-$name'] == null) {
       this.channels['private-$name'] = new SocketIoPrivateChannel(
-        this.channel,
+        this.socket,
         'private-$name',
         this.options,
       );
