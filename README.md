@@ -101,6 +101,18 @@ socket.on('disconnect', (_) => print('disconnect'));
 
 ## Guide
 
+### Options
+
+|Option|Description|Default|
+|---|---|---|
+|auth| | |
+|authEndpoint| |/broadcasting/auth|
+|broadcaster| |socket.io|
+|crsfToken| | |
+|host|Socket host|http://localhost:6001 |
+|namespace|Event namespace|App.Events|
+|...|Any other options, passed as socket params| |
+
 ### Authorize private channels
 
 To authorize channel requests we use [Laravel Passport](https://laravel.com/docs/5.7/passport)

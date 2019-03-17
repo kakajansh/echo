@@ -1,16 +1,54 @@
-# myapp
+### socket.io
 
-A new Flutter project.
+To use with `socket.io`, you need to install [socket_io_client](https://pub.dartlang.org/packages/socket_io_client) for your Flutter app.
 
-## Getting Started
+In your `pubspec.yaml` file:
 
-This project is a starting point for a Flutter application.
+```yaml
+dependencies:
+  ...
+  socket_io_client: ^0.9.1
+  laravel_echo:
+```
 
-A few resources to get you started if this is your first Flutter project:
+import `socket_io_client`
+```dart
+import 'package:socket_io_client/socket_io_client.dart' as IO;
+```
 
-- [Lab: Write your first Flutter app](https://flutter.io/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.io/docs/cookbook)
+usage
+```dart
+// Create echo instance
+Echo echo = new Echo({
+  'broadcaster': 'socket.io',
+  'client': IO.io,
+});
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.io/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+// Listening public channel
+echo.channel('public-channel').listen('PublicEvent', (e) {
+  print(e);
+});
+
+// Listening private channel
+// Needs auth. See details how to authorize channel below in guides
+echo.private('private-channel').listen('PrivateEvent', (e) {
+  print(e);
+});
+
+// Listening presence channel
+// Needs auth. See details how to authorize channel below in guides
+echo.join('presence-channel')
+  .here((users) {
+    print(users);
+  }).joining((user) {
+    print(user);
+  }).leaving((user) {
+    print(user);
+  }).listen('PresenceEvent', (e) {
+    print(e);
+  });
+
+// Accessing socket instance
+echo.socket.on('connect', (_) => print('connected'));
+echo.socket.on('disconnect', (_) => print('disconnected'));
+```
