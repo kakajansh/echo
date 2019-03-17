@@ -1,6 +1,7 @@
 library laravel_echo;
 
 import 'package:laravel_echo/src/channel/channel.dart';
+import 'package:laravel_echo/src/channel/private-channel.dart';
 import 'package:laravel_echo/src/channel/presence-channel.dart';
 import 'package:laravel_echo/src/connector/socketio-connector.dart';
 import 'package:laravel_echo/src/connector/pusher-connector.dart';
@@ -12,6 +13,9 @@ import 'package:laravel_echo/src/connector/null-connector.dart';
 class Echo {
   /// The broadcasting connector.
   dynamic connector;
+
+  /// Socket instance
+  get socket => this.connector.socket;
 
   /// The Echo options.
   Map<String, dynamic> options;
@@ -48,9 +52,14 @@ class Echo {
     return this.connector.presenceChannel(channel);
   }
 
-  /// Leave the given channel.
+  /// Leave the given channel, as well as its private and presence variants.
   void leave(String channel) {
     this.connector.leave(channel);
+  }
+
+  /// Leave the given channel.
+  void leaveChannel(String channel) {
+    this.connector.leaveChannel(channel);
   }
 
   /// Listen for an event on a channel instance.
@@ -59,7 +68,7 @@ class Echo {
   }
 
   /// Get a private channel instance by name.
-  Channel private(String channel) {
+  PrivateChannel private(String channel) {
     return this.connector.privateChannel(channel);
   }
 

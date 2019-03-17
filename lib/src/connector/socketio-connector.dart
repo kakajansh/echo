@@ -18,7 +18,11 @@ class SocketIoConnector extends Connector {
   /// Create a fresh Socket.io connection.
   @override
   void connect() {
-    this.socket = this.getSocketIO();
+    dynamic io = this.getSocketIO();
+
+    this.socket = io(this.options['host'], this.options);
+
+    this.socket.connect();
 
     return this.socket;
   }
@@ -31,7 +35,6 @@ class SocketIoConnector extends Connector {
 
     throw new Exception('Socket.io client not found. Should be passed via options.client');
   }
-
 
   /// Listen for an event on a channel instance.
   SocketIoChannel listen(String name, String event, Function callback) {

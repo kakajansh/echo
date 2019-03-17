@@ -34,7 +34,7 @@ class SocketIoChannel extends Channel {
   /// Subscribe to a Socket.io channel.
   void subscribe() {
     this.socket.emit('subscribe', {
-      'channel': name,
+      'channel': this.name,
       'auth': this.options['auth'] ?? {}
     });
   }
@@ -50,7 +50,6 @@ class SocketIoChannel extends Channel {
   }
 
   /// Listen for an event on the channel instance.
-  @override
   SocketIoChannel listen(String event, Function callback) {
     this.on(this.eventFormatter.format(event), callback);
 

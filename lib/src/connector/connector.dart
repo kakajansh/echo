@@ -1,4 +1,5 @@
 import 'package:laravel_echo/src/channel/channel.dart';
+import 'package:laravel_echo/src/channel/private-channel.dart';
 import 'package:laravel_echo/src/channel/presence-channel.dart';
 
 abstract class Connector {
@@ -10,9 +11,11 @@ abstract class Connector {
     'authEndpoint': '/broadcasting/auth',
     'broadcaster': 'socket.io',
     'crsfToken': null,
-    'host': null,
+    'host': 'http://localhost:6001',
     'key': null,
-    'namespace': 'App.Events'
+    'namespace': 'App.Events',
+    'transports': ['websocket'],
+    'autoConnect': false
   };
 
   /// Connector options.
@@ -51,7 +54,7 @@ abstract class Connector {
   Channel channel(String channel);
 
   /// Get a private channel instance by name.
-  Channel privateChannel(String channel);
+  PrivateChannel privateChannel(String channel);
 
   /// Get a presence channel instance by name.
   PresenceChannel presenceChannel(String channel);
