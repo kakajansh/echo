@@ -22,3 +22,4 @@ pubspec.lock
 *.ipr
 *.iws
 .idea/
+.DS_Store

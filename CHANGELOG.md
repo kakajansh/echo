@@ -1,4 +1,9 @@
-## [0.1.0] - 02.03.2018
+## [0.2.0] - 16.03.2018
+
+* Minor changes
+* Include example
+
+## [0.1.1] - 02.03.2018
 
 * Added Pusher connector. Implemented by @abrahamSN
 * Fixes issue with socket-io private channels
