@@ -126,6 +126,7 @@ then, when creating `Echo` instance include `Authorization` header with bearer t
 ```dart
 echo = new Echo({
   'broadcaster': 'socket.io',
+  'host': 'http://host:port',      // The socket server and port
   'client': socket,
   'auth': {
     'headers': {
