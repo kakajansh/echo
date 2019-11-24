@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:laravel_echo/src/util/event-formatter.dart';
 import 'package:laravel_echo/src/channel/channel.dart';
 
@@ -54,7 +56,12 @@ class PusherChannel extends Channel {
 
   /// Bind a channel to an event.
   PusherChannel on(String event, Function callback) {
-    this.subcription.bind(event, callback);
+    if (this.subcription is Future) {
+      this.subcription.then((channel) => channel.bind(event, callback));
+    } else {
+      this.subcription.bind(event, callback);
+    }
+    
     return this;
   }
 }

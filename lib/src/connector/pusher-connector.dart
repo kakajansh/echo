@@ -95,6 +95,6 @@ class PusherConnector extends Connector {
   /// Disconnect Pusher connection.
   @override
   void disconnect() {
-    this.pusher.disconect();
+    this.pusher.disconnect();
   }
 }
