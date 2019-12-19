@@ -89,7 +89,7 @@ class PusherConnector extends Connector {
   /// Get the socket ID for the connection.
   @override
   String socketId() {
-    return this.pusher.connection.socket_id;
+    return this.pusher.getSocketId();
   }
 
   /// Disconnect Pusher connection.
