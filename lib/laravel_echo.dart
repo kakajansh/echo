@@ -39,6 +39,8 @@ class Echo {
       this.connector = new SocketIoConnector(this.options);
     } else if (this.options['broadcaster'] == 'null') {
       this.connector = new NullConnector(this.options);
+    } else if (options['broadcaster'] is Function) {
+      this.connector = options['broadcaster'](options);
     }
   }
 

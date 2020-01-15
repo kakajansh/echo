@@ -6,7 +6,7 @@ API is same as official Echo package, so everything in [Official documentation](
 
 Three connectors available:
 - [x] [socket.io](#socket.io)
-- [ ] [Pusher](#pusher)
+- [x] [Pusher](#pusher)
 - [x] Null
 
 <img width="300" alt="Screen Shot 2019-03-17 at 9 37 50 PM" src="https://user-images.githubusercontent.com/7093483/54494522-f15eef80-48fc-11e9-8fc1-e986bc004360.png">
@@ -68,23 +68,27 @@ echo.socket.on('connect', (_) => print('connected'));
 echo.socket.on('disconnect', (_) => print('disconnected'));
 ```
 
-### Pusher (NOT TESTED)
+### Pusher
 
-__DONT USE THIS FOR NOW__ will look at Pusher in following weeks. Any contributions welcomed.
-
-To use with __Pusher__, you need to install [pusher](https://pub.dartlang.org/packages/pusher) for you Flutter app.
+To use with __Pusher__, you need to install [flutter_pusher_client](https://pub.dartlang.org/packages/flutter_pusher_client) for you Flutter app.
 
 In your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
   ...
-  pusher: ^1.0.0
+  flutter_pusher_client: ^0.1.0
   laravel_echo:
 ```
 
+import `flutter_pusher_client`
 ```dart
-Pusher pusher = new Pusher('PUSHER_APP_ID', 'PUSHER_APP_KEY', 'PUSHER_APP_SECRET');
+import 'package:flutter_pusher_client/flutter_pusher.dart';
+```
+
+```dart
+var options = PusherOptions(host: '10.0.2.2', port: 6001, encrypted: false);
+FlutterPusher pusher = FlutterPusher('app', options, enableLogging: true);
 
 Echo echo = new Echo({
   'broadcaster': 'pusher',

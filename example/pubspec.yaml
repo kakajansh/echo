@@ -19,6 +19,7 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
+  flutter_pusher_client: ^0.1.0
   socket_io_client: ^0.9.1
   laravel_echo:
     path: ../
