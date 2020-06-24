@@ -1,4 +1,5 @@
-import 'package:laravel_echo/src/channel/channel.dart';
+import 'channel.dart';
+
 ///
 /// This interface represents a presence channel.
 ///

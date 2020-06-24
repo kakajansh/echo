@@ -1,11 +1,11 @@
 library laravel_echo;
 
-import 'package:laravel_echo/src/channel/channel.dart';
-import 'package:laravel_echo/src/channel/private-channel.dart';
-import 'package:laravel_echo/src/channel/presence-channel.dart';
-import 'package:laravel_echo/src/connector/socketio-connector.dart';
-import 'package:laravel_echo/src/connector/pusher-connector.dart';
-import 'package:laravel_echo/src/connector/null-connector.dart';
+import 'src/channel/channel.dart';
+import 'src/channel/presence-channel.dart';
+import 'src/channel/private-channel.dart';
+import 'src/connector/null-connector.dart';
+import 'src/connector/pusher-connector.dart';
+import 'src/connector/socketio-connector.dart';
 
 ///
 /// This class is the primary API for interacting with broadcasting.

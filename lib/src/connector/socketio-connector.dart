@@ -1,7 +1,7 @@
-import 'package:laravel_echo/src/connector/connector.dart';
-import 'package:laravel_echo/src/channel/socketio-channel.dart';
-import 'package:laravel_echo/src/channel/socketio-private-channel.dart';
-import 'package:laravel_echo/src/channel/socketio-presence-channel.dart';
+import '../channel/socketio-channel.dart';
+import '../channel/socketio-presence-channel.dart';
+import '../channel/socketio-private-channel.dart';
+import 'connector.dart';
 
 ///
 /// This class creates a connnector to a Socket.io server.
@@ -33,7 +33,8 @@ class SocketIoConnector extends Connector {
       return this.options['client'];
     }
 
-    throw new Exception('Socket.io client not found. Should be passed via options.client');
+    throw new Exception(
+        'Socket.io client not found. Should be passed via options.client');
   }
 
   /// Listen for an event on a channel instance.
@@ -45,7 +46,8 @@ class SocketIoConnector extends Connector {
   @override
   SocketIoChannel channel(String name) {
     if (this.channels[name] == null) {
-      this.channels[name] = new SocketIoChannel(this.socket, name, this.options);
+      this.channels[name] =
+          new SocketIoChannel(this.socket, name, this.options);
     }
 
     return this.channels[name];

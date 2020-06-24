@@ -11,6 +11,9 @@ dependencies:
   flutter:
     sdk: flutter
 
+  pusher_websocket_flutter: ^0.2.0
+  socket_io_client: ^0.9.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

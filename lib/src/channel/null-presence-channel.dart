@@ -1,5 +1,5 @@
-import 'package:laravel_echo/src/channel/null-channel.dart';
-import 'package:laravel_echo/src/channel/presence-channel.dart';
+import 'null-channel.dart';
+import 'presence-channel.dart';
 
 ///
 /// This class represents a null presence channel.

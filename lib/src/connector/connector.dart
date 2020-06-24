@@ -1,13 +1,11 @@
-import 'package:laravel_echo/src/channel/channel.dart';
-import 'package:laravel_echo/src/channel/private-channel.dart';
-import 'package:laravel_echo/src/channel/presence-channel.dart';
+import '../channel/channel.dart';
+import '../channel/presence-channel.dart';
+import '../channel/private-channel.dart';
 
 abstract class Connector {
   /// Default connector options.
   var _defaultOptions = {
-    'auth': {
-      'headers': {}
-    },
+    'auth': {'headers': {}},
     'authEndpoint': '/broadcasting/auth',
     'broadcaster': 'socket.io',
     'crsfToken': null,
@@ -31,7 +29,7 @@ abstract class Connector {
   /// Merge the custom options with the defaults.
   void _setOptions(dynamic options) {
     _defaultOptions.addAll(options);
-    this.options = this._defaultOptions;
+    this.options = _defaultOptions;
 
     if (this._csrfToken() != null) {
       this.options['auth'].headers['X-CSRF-TOKEN'] = this._csrfToken();

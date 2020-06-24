@@ -1,5 +1,5 @@
-import 'package:laravel_echo/src/channel/null-channel.dart';
-import 'package:laravel_echo/src/channel/private-channel.dart';
+import 'null-channel.dart';
+import 'private-channel.dart';
 
 ///
 /// This class represents a null private channel.

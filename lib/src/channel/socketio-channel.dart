@@ -1,5 +1,5 @@
-import 'package:laravel_echo/src/util/event-formatter.dart';
-import 'package:laravel_echo/src/channel/channel.dart';
+import '../util/event-formatter.dart';
+import 'channel.dart';
 
 ///
 /// This class represents a Socket.io channel.
@@ -22,8 +22,8 @@ class SocketIoChannel extends Channel {
 
   /// Create a new class instance.
   SocketIoChannel(dynamic socket, String name, dynamic options) {
-    this.name = name;
     this.socket = socket;
+    this.name = name;
     this.options = options;
     this.eventFormatter = new EventFormatter(this.options['namespace']);
 
@@ -33,20 +33,16 @@ class SocketIoChannel extends Channel {
 
   /// Subscribe to a Socket.io channel.
   void subscribe() {
-    this.socket.emit('subscribe', {
-      'channel': this.name,
-      'auth': this.options['auth'] ?? {}
-    });
+    this.socket.emit('subscribe',
+        {'channel': this.name, 'auth': this.options['auth'] ?? {}});
   }
 
   /// Unsubscribe from channel and ubind event callbacks.
   void unsubscribe() {
     this.unbind();
 
-    this.socket.emit('unsubscribe', {
-      'channel': this.name,
-      'auth': this.options['auth'] ?? {}
-    });
+    this.socket.emit('unsubscribe',
+        {'channel': this.name, 'auth': this.options['auth'] ?? {}});
   }
 
   /// Listen for an event on the channel instance.
@@ -101,7 +97,7 @@ class SocketIoChannel extends Channel {
         this.socket.off(event, callback);
       });
 
-      this.events[event] = null;
+      this.events.remove(event);
     });
   }
 }

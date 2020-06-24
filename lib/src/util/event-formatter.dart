@@ -6,7 +6,7 @@ class EventFormatter {
   dynamic namespace;
 
   /// Create a new class instance.
-  EventFormatter (dynamic namespace) {
+  EventFormatter(dynamic namespace) {
     this.setNamespace(namespace);
   }
 

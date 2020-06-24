@@ -5,10 +5,11 @@ abstract class Channel {
   /// The Echo options.
   dynamic options;
 
+  // void subscribe();
+  // void unsubscribe();
+
   /// Listen for an event on the channel instance.
   Channel listen(String event, Function callback);
-
-  void unsubscribe();
 
   /// Listen for a whisper event on the channel instance.
   Channel listerForWhisper(String event, Function callback) {
@@ -17,9 +18,16 @@ abstract class Channel {
 
   /// Listen for an event on the channel instance.
   Channel notification(Function callback) {
-    return this.listen('.Illuminate\\Notifications\\Events\\BroadcastNotificationCreated', callback);
+    return this.listen(
+        '.Illuminate\\Notifications\\Events\\BroadcastNotificationCreated',
+        callback);
   }
 
   /// Stop listening to an event on the channel instance.
   Channel stopListening(String event);
+
+  /// Stop listening for a whispser event on the channel instance.
+  Channel stopListeningForWhisper(String event) {
+    return this.stopListening('.client-$event');
+  }
 }

@@ -1,11 +1,13 @@
-import 'package:laravel_echo/src/channel/presence-channel.dart';
-import 'package:laravel_echo/src/channel/socketio-private-channel.dart';
+import 'presence-channel.dart';
+import 'socketio-private-channel.dart';
 
 ///
 /// This class represents a Socket.io presence channel.
 ///
-class SocketIoPresenceChannel extends SocketIoPrivateChannel implements PresenceChannel {
-  SocketIoPresenceChannel(dynamic socket, String name, dynamic options) : super(socket, name, options);
+class SocketIoPresenceChannel extends SocketIoPrivateChannel
+    implements PresenceChannel {
+  SocketIoPresenceChannel(dynamic socket, String name, dynamic options)
+      : super(socket, name, options);
 
   /// Register a callback to be called anytime the member list changes.
   SocketIoPresenceChannel here(Function callback) {

@@ -70,52 +70,69 @@ echo.socket.on('disconnect', (_) => print('disconnected'));
 
 ### Pusher
 
-To use with __Pusher__, you need to install [flutter_pusher_client](https://pub.dartlang.org/packages/flutter_pusher_client) for you Flutter app.
+To use with __Pusher__, you need to install [pusher_websocket_flutter](https://pub.dev/packages/pusher_websocket_flutter) for you Flutter app.
 
 In your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
   ...
-  flutter_pusher_client: ^0.1.0
+  pusher_websocket_flutter: ^0.2.0
   laravel_echo:
 ```
 
-import `flutter_pusher_client`
+import `pusher_websocket_flutter`
 ```dart
-import 'package:flutter_pusher_client/flutter_pusher.dart';
+import 'package:pusher_websocket_flutter/pusher.dart';
 ```
 
+usage
+> Somewhere along the line, you are going to need the Pusher initialization like the one in the below. One thing you have to remember is that `PusherAuth` requires an `HTTPS` endpoint not `HTTP`.
+
 ```dart
-var options = PusherOptions(host: '10.0.2.2', port: 6001, encrypted: false);
-FlutterPusher pusher = FlutterPusher('app', options, enableLogging: true);
-
-Echo echo = new Echo({
-  'broadcaster': 'pusher',
-  'client': pusher,
-});
-
-echo.channel('public-channel').listen('PublicEvent', (e) {
+Future<void> _initPusher() async {
+  try {
+    await Pusher.init(
+        'your-pusher-app-key-goes-here',
+        PusherOptions(
+          auth: PusherAuth(
+              'https://your-api-endpoint.com/api/broadcasting/auth',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization':
+                    'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC93YW5kZXJpbmdob2cuYW11c2V0cmF2ZWwuY29tXC9hcGlcL2xvZ2luIiwiaWF0IjoxNTkyOTcyNTU3LCJleHAiOjE1OTQxODIxNTcsIm5iZiI6MTU5Mjk3MjU1NywianRpIjoiejFRTEpqNDgyQkJLbjVDRyIsInN1YiI6MTEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjciLCJ1dWlkIjoiMTA5MTU2YmUtYzRmYi00MWVhLWIxYjQtZWZlMTY3MWM1ODM2In0.5MkYV6SoVdf_lkdwAmD8P0g5AFyntwVmJAZF5kVHsCs'
+              }),
+          cluster: 'ap3',
+        ),
+        enableLogging: true);
+  } on PlatformException catch (e) {
+    print(e.message);
+  }
+  echo = new Echo({
+    'broadcaster': 'pusher',
+    'client': Pusher,
+    'callback': this.onConnectionStateChange,
+  });
+}
+echo.channel('my-channel').listen('MyEvent', (e) {
   print(e);
 });
-
-socket.on('connect', (_) => print('connect'));
-socket.on('disconnect', (_) => print('disconnect'));
+echo.channel('my-channel').on('connect', (_) => print('connect'));
 ```
 
 ## Guide
 
 ### Options
 
-|Option|Description|Default|
-|---|---|---|
-|auth| | |
-|authEndpoint| |/broadcasting/auth|
-|broadcaster| |socket.io|
-|crsfToken| | |
-|host|Socket host|http://localhost:6001 |
-|namespace|Event namespace|App.Events|
-|...|Any other options, passed as socket params| |
+| Option       | Description                                | Default               |
+| ------------ | ------------------------------------------ | --------------------- |
+| auth         |                                            |                       |
+| authEndpoint |                                            | /broadcasting/auth    |
+| broadcaster  |                                            | socket.io             |
+| crsfToken    |                                            |                       |
+| host         | Socket host                                | http://localhost:6001 |
+| namespace    | Event namespace                            | App.Events            |
+| ...          | Any other options, passed as socket params |                       |
 
 ### Authorize private channels
 

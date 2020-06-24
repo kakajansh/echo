@@ -1,12 +1,11 @@
-import 'package:laravel_echo/src/channel/pusher-channel.dart';
-import 'package:laravel_echo/src/channel/presence-channel.dart';
+import 'presence-channel.dart';
+import 'pusher-channel.dart';
 
 ///
 /// This class represents a Pusher presence channel.
 ///
-class PusherPresenceChannel extends PusherChannel
-    implements PresenceChannel {
-  PusherPresenceChannel(pusher, String name, options)
+class PusherPresenceChannel extends PusherChannel implements PresenceChannel {
+  PusherPresenceChannel(dynamic pusher, String name, dynamic options)
       : super(pusher, name, options);
 
   /// Register a callback to be called anytime the member list changes.
@@ -37,7 +36,7 @@ class PusherPresenceChannel extends PusherChannel
 
   /// Trigger client event on the channel.
   PusherPresenceChannel whisper(String eventName, dynamic data) {
-    this.pusher.channels[this.name].trigger('client-$eventName', data);
+    // this.subscription.channels[this.name].trigger('client-$eventName', data);
 
     return this;
   }

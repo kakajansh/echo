@@ -1,13 +1,12 @@
-import 'package:laravel_echo/src/connector/connector.dart';
-import 'package:laravel_echo/src/channel/channel.dart';
-import 'package:laravel_echo/src/channel/private-channel.dart';
-import 'package:laravel_echo/src/channel/presence-channel.dart';
-import 'package:laravel_echo/src/channel/pusher-channel.dart';
-import 'package:laravel_echo/src/channel/pusher-private-channel.dart';
-import 'package:laravel_echo/src/channel/pusher-presence-channel.dart';
+import 'package:pusher_websocket_flutter/pusher.dart' show Pusher;
+
+import '../channel/pusher-channel.dart';
+import '../channel/pusher-presence-channel.dart';
+import '../channel/pusher-private-channel.dart';
+import 'connector.dart';
 
 ///
-/// This class creates a null connector.
+/// This class creates a connector to a Pusher server.
 ///
 class PusherConnector extends Connector {
   /// The Pusher connection instance.
@@ -22,6 +21,9 @@ class PusherConnector extends Connector {
   @override
   void connect() {
     this.pusher = this.options['client'];
+    final Function callback = this.options['callback'];
+
+    Pusher.connect(onConnectionStateChange: callback);
 
     return this.pusher;
   }
@@ -51,6 +53,7 @@ class PusherConnector extends Connector {
         this.options,
       );
     }
+
     return this.channels['private-$name'];
   }
 
@@ -64,6 +67,7 @@ class PusherConnector extends Connector {
         this.options,
       );
     }
+
     return this.channels['presence-$name'];
   }
 
@@ -89,12 +93,12 @@ class PusherConnector extends Connector {
   /// Get the socket ID for the connection.
   @override
   String socketId() {
-    return this.pusher.getSocketId();
+    return Pusher.getSocketId();
   }
 
   /// Disconnect Pusher connection.
   @override
   void disconnect() {
-    this.pusher.disconnect();
+    Pusher.disconnect();
   }
 }

@@ -1,7 +1,8 @@
 import 'dart:async';
+import 'package:pusher_websocket_flutter/pusher.dart' show Pusher;
 
-import 'package:laravel_echo/src/util/event-formatter.dart';
-import 'package:laravel_echo/src/channel/channel.dart';
+import '../util/event-formatter.dart';
+import 'channel.dart';
 
 ///
 /// This class represents a pusher channel.
@@ -19,13 +20,13 @@ class PusherChannel extends Channel {
   /// The event formatter.
   EventFormatter eventFormatter;
 
-  /// The subcription of the channel.
-  dynamic subcription;
+  /// The subscription of the channel.
+  dynamic subscription;
 
   /// Create a new class instance.
   PusherChannel(dynamic pusher, String name, dynamic options) {
-    this.name = name;
     this.pusher = pusher;
+    this.name = name;
     this.options = options;
     this.eventFormatter = new EventFormatter(this.options['namespace']);
 
@@ -34,34 +35,42 @@ class PusherChannel extends Channel {
 
   /// Subscribe to a Pusher channel.
   void subscribe() {
-    this.subcription = this.pusher.subscribe(this.name);
+    if (this.pusher.toString() == 'Pusher') {
+      this.subscription = Pusher.subscribe(this.name);
+    }
   }
 
   /// Unsubscribe from a channel.
-  void unsubscribe() {
-    this.pusher.unsubscribe(this.name);
+  Future<void> unsubscribe() async {
+    if (this.pusher.toString() == 'Pusher') {
+      await Pusher.unsubscribe(this.name);
+    }
   }
 
   /// Listen for an event on the channel instance.
   PusherChannel listen(String event, Function callback) {
     this.on(this.eventFormatter.format(event), callback);
+
     return this;
   }
 
   /// Stop listening for an event on the channel instance.
   PusherChannel stopListening(String event) {
-    this.subcription.unbind(this.eventFormatter.format(event));
+    this.subscription.unbind(this.eventFormatter.format(event));
+
     return this;
   }
 
   /// Bind a channel to an event.
   PusherChannel on(String event, Function callback) {
-    if (this.subcription is Future) {
-      this.subcription.then((channel) => channel.bind(event, callback));
-    } else {
-      this.subcription.bind(event, callback);
+    if (this.subscription != null) {
+      if (this.subscription is Future) {
+        this.subscription.then((channel) => channel.bind(event, callback));
+      } else {
+        this.subscription.bind(event, callback);
+      }
     }
-    
+
     return this;
   }
 }
