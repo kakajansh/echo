@@ -40,12 +40,13 @@ class _PusherPage extends State<PusherPage> {
   Future<void> _initPusher() async {
     try {
       await Pusher.init(
-          'your-pusher-app-key-goes-here',
+          '106bcccd1be248c56008',
           PusherOptions(
             auth: PusherAuth(
-                'https://your-api-endpoint.com/api/broadcasting/auth',
+                'https://wanderinghog.amusetravel.com/api/broadcasting/auth',
                 headers: {
                   'Content-Type': 'application/json',
+                  'Accept': 'application/json',
                   'Authorization':
                       'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC93YW5kZXJpbmdob2cuYW11c2V0cmF2ZWwuY29tXC9hcGlcL2xvZ2luIiwiaWF0IjoxNTkyOTcyNTU3LCJleHAiOjE1OTQxODIxNTcsIm5iZiI6MTU5Mjk3MjU1NywianRpIjoiejFRTEpqNDgyQkJLbjVDRyIsInN1YiI6MTEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjciLCJ1dWlkIjoiMTA5MTU2YmUtYzRmYi00MWVhLWIxYjQtZWZlMTY3MWM1ODM2In0.5MkYV6SoVdf_lkdwAmD8P0g5AFyntwVmJAZF5kVHsCs'
                 }),
