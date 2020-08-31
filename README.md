@@ -77,7 +77,7 @@ In your `pubspec.yaml` file:
 ```yaml
 dependencies:
   ...
-  flutter_pusher_client: ^0.1.0
+  flutter_pusher_client: ^0.3.1
   laravel_echo:
 ```
 
