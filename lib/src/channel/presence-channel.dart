@@ -1,4 +1,5 @@
 import 'package:laravel_echo/src/channel/channel.dart';
+
 ///
 /// This interface represents a presence channel.
 ///
@@ -11,4 +12,7 @@ abstract class PresenceChannel extends Channel {
 
   /// Listen for someone leaving the channel.
   PresenceChannel leaving(Function callback);
+
+  /// Register a callback to be called anytime the member list changes.
+  PresenceChannel whisper(String eventName, dynamic data);
 }
