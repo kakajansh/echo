@@ -1,21 +1,35 @@
+## [0.2.5] - 27.10.2020
+
+Update to make inline with official Laravel echo package. Including:
+
+- Add stopWhisper method to channel
+- Add support for custom connectors
+- Add pusher private-encrypted
+- Implement error handling with support for Pusher
+- Register subscription succeeded callbacks
+
+## [0.2.2] - 15.01.2020
+
+- Added Pusher Client Support by [@heywhy](http://github.com/heywhy/)
+
 ## [0.2.1] - 17.03.2018
 
-* Update package description
-* Update README.md
+- Update package description
+- Update README.md
 
 ## [0.2.0] - 16.03.2018
 
-* Minor changes
-* Include example
+- Minor changes
+- Include example
 
 ## [0.1.1] - 02.03.2018
 
-* Added Pusher connector. Implemented by @abrahamSN
-* Fixes issue with socket-io private channels
-* Cleaned up
+- Added Pusher connector. Implemented by [@abrahamSN](https://github.com/abrahamSN)
+- Fixes issue with socket-io private channels
+- Cleaned up
 
 ## [0.0.1] - 09.02.2018
 
-* Initial release.
-* Added null connector
-* Added socketio connector
+- Initial release.
+- Added null connector
+- Added socketio connector

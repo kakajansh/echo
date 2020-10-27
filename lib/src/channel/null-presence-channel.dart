@@ -21,7 +21,7 @@ class NullPresenceChannel extends NullChannel implements PresenceChannel {
   }
 
   /// Trigger client event on the channel.
-  NullPresenceChannel whisper(String eventName, var data) {
+  NullPresenceChannel whisper(String eventName, dynamic data) {
     return this;
   }
 }

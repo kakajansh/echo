@@ -54,6 +54,20 @@ class PusherChannel extends Channel {
     return this;
   }
 
+  /// Register a callback to be called anytime a subscription succeeds.
+  PusherChannel subscribed(Function callback) {
+    this.on('pusher:subscription_succeeded', () => callback());
+
+    return this;
+  }
+
+  ///  Register a callback to be called anytime a subscription error occurs.
+  PusherChannel error(Function callback) {
+    this.on('pusher:subscription_error', (status) => callback(status));
+
+    return this;
+  }
+
   /// Bind a channel to an event.
   PusherChannel on(String event, Function callback) {
     if (this.subcription is Future) {
@@ -61,7 +75,7 @@ class PusherChannel extends Channel {
     } else {
       this.subcription.bind(event, callback);
     }
-    
+
     return this;
   }
 }

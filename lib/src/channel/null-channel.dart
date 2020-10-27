@@ -24,6 +24,16 @@ class NullChannel extends Channel {
     return this;
   }
 
+  /// Register a callback to be called anytime a subscription succeeds.
+  NullChannel subscribed(Function callback) {
+    return this;
+  }
+
+  /// Register a callback to be called anytime an error occurs.
+  NullChannel error(Function callback) {
+    return this;
+  }
+
   /// Bind a channel to an event.
   NullChannel on(String event, Function callback) {
     return this;

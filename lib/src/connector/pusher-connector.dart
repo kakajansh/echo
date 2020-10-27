@@ -1,7 +1,5 @@
 import 'package:laravel_echo/src/connector/connector.dart';
 import 'package:laravel_echo/src/channel/channel.dart';
-import 'package:laravel_echo/src/channel/private-channel.dart';
-import 'package:laravel_echo/src/channel/presence-channel.dart';
 import 'package:laravel_echo/src/channel/pusher-channel.dart';
 import 'package:laravel_echo/src/channel/pusher-private-channel.dart';
 import 'package:laravel_echo/src/channel/pusher-presence-channel.dart';
@@ -43,7 +41,7 @@ class PusherConnector extends Connector {
 
   /// Get a private channel instance by name.
   @override
-  PusherPrivateChannel privateChannel(String name) {
+  Channel privateChannel(String name) {
     if (this.channels['private-$name'] == null) {
       this.channels['private-$name'] = new PusherPrivateChannel(
         this.pusher,
@@ -52,6 +50,19 @@ class PusherConnector extends Connector {
       );
     }
     return this.channels['private-$name'];
+  }
+
+  /// Get a private encrypted channel instance by name.
+  PusherChannel encryptedPrivateChannel(String name) {
+    if (this.channels['private-encrypted-$name'] == null) {
+      this.channels['private-encrypted-$name'] = new PusherPrivateChannel(
+        this.pusher,
+        'private-encrypted-$name',
+        this.options,
+      );
+    }
+
+    return this.channels['private-encrypted-$name'];
   }
 
   /// Get a presence channel instance by name.

@@ -5,6 +5,7 @@ Basically, this package is port of official [Laravel Echo javascript library](ht
 API is same as official Echo package, so everything in [Official documentation](https://laravel.com/docs/5.7/broadcasting) should work.
 
 Three connectors available:
+
 - [x] [socket.io](#socket.io)
 - [x] [Pusher](#pusher)
 - [x] Null
@@ -27,11 +28,13 @@ dependencies:
 ```
 
 import `socket_io_client`
+
 ```dart
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 ```
 
 usage
+
 ```dart
 // Create echo instance
 Echo echo = new Echo({
@@ -70,7 +73,7 @@ echo.socket.on('disconnect', (_) => print('disconnected'));
 
 ### Pusher
 
-To use with __Pusher__, you need to install [flutter_pusher_client](https://pub.dartlang.org/packages/flutter_pusher_client) for you Flutter app.
+To use with **Pusher**, you need to install [flutter_pusher_client](https://pub.dartlang.org/packages/flutter_pusher_client) for you Flutter app.
 
 In your `pubspec.yaml` file:
 
@@ -78,16 +81,21 @@ In your `pubspec.yaml` file:
 dependencies:
   ...
   flutter_pusher_client: ^0.3.1
-  laravel_echo:
+  laravel_echo: ^0.2.5
 ```
 
 import `flutter_pusher_client`
+
 ```dart
 import 'package:flutter_pusher_client/flutter_pusher.dart';
 ```
 
 ```dart
-var options = PusherOptions(host: '10.0.2.2', port: 6001, encrypted: false);
+PusherOptions options = PusherOptions(
+  host: '10.0.2.2',
+  port: 6001,
+  encrypted: false,
+);
 FlutterPusher pusher = FlutterPusher('app', options, enableLogging: true);
 
 Echo echo = new Echo({
@@ -107,26 +115,28 @@ socket.on('disconnect', (_) => print('disconnect'));
 
 ### Options
 
-|Option|Description|Default|
-|---|---|---|
-|auth| | |
-|authEndpoint| |/broadcasting/auth|
-|broadcaster| |socket.io|
-|crsfToken| | |
-|host|Socket host|http://localhost:6001 |
-|namespace|Event namespace|App.Events|
-|...|Any other options, passed as socket params| |
+| Option       | Description                                | Default               |
+| ------------ | ------------------------------------------ | --------------------- |
+| auth         |                                            |                       |
+| authEndpoint |                                            | /broadcasting/auth    |
+| broadcaster  |                                            | socket.io             |
+| crsfToken    |                                            |                       |
+| host         | Socket host                                | http://localhost:6001 |
+| namespace    | Event namespace                            | App.Events            |
+| ...          | Any other options, passed as socket params |                       |
 
 ### Authorize private channels
 
 To authorize channel requests we use [Laravel Passport](https://laravel.com/docs/5.7/passport)
 
 In our `BroadcastServiceProvider.php` we need to enable
+
 ```php
 Broadcast::routes(['middleware' => ['auth:api']]);
 ```
 
 then, when creating `Echo` instance include `Authorization` header with bearer token
+
 ```dart
 echo = new Echo({
   'broadcaster': 'socket.io',

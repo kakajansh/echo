@@ -6,7 +6,7 @@ import 'package:laravel_echo/src/channel/private-channel.dart';
 ///
 class NullPrivateChannel extends NullChannel implements PrivateChannel {
   /// Trigger client event on the channel.
-  NullPrivateChannel whisper(String eventName, var data) {
+  NullPrivateChannel whisper(String eventName, dynamic data) {
     return this;
   }
 }

@@ -39,8 +39,8 @@ class Echo {
       this.connector = new SocketIoConnector(this.options);
     } else if (this.options['broadcaster'] == 'null') {
       this.connector = new NullConnector(this.options);
-    } else if (options['broadcaster'] is Function) {
-      this.connector = options['broadcaster'](options);
+    } else if (this.options['broadcaster'] is Function) {
+      this.connector = this.options['broadcaster'](this.options);
     }
   }
 
@@ -72,6 +72,11 @@ class Echo {
   /// Get a private channel instance by name.
   PrivateChannel private(String channel) {
     return this.connector.privateChannel(channel);
+  }
+
+  /// Get a private encrypted channel instance by name.
+  Channel encrypted(String channel) {
+    return this.connector.encryptedPrivateChannel(channel);
   }
 
   /// Get the Socket ID for the connection.

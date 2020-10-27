@@ -33,20 +33,26 @@ class SocketIoChannel extends Channel {
 
   /// Subscribe to a Socket.io channel.
   void subscribe() {
-    this.socket.emit('subscribe', {
-      'channel': this.name,
-      'auth': this.options['auth'] ?? {}
-    });
+    this.socket.emit(
+      'subscribe',
+      {
+        'channel': this.name,
+        'auth': this.options['auth'] ?? {},
+      },
+    );
   }
 
   /// Unsubscribe from channel and ubind event callbacks.
   void unsubscribe() {
     this.unbind();
 
-    this.socket.emit('unsubscribe', {
-      'channel': this.name,
-      'auth': this.options['auth'] ?? {}
-    });
+    this.socket.emit(
+      'unsubscribe',
+      {
+        'channel': this.name,
+        'auth': this.options['auth'] ?? {},
+      },
+    );
   }
 
   /// Listen for an event on the channel instance.
@@ -63,6 +69,18 @@ class SocketIoChannel extends Channel {
     this.socket.off(name);
     this.events.remove(name);
 
+    return this;
+  }
+
+  /// Register a callback to be called anytime a subscription succeeds.
+  SocketIoChannel subscribed(Function callback) {
+    this.on('connect', (socket) => callback(socket));
+
+    return this;
+  }
+
+  /// Register a callback to be called anytime an error occurs.
+  SocketIoChannel error(Function callback) {
     return this;
   }
 
