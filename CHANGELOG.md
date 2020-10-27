@@ -1,3 +1,8 @@
+## [0.2.6] - 27.10.2020
+
+- Update example app
+- Add [echo-server](https://github.com/kakajansh/echo-server) sample backend
+
 ## [0.2.5] - 27.10.2020
 
 Update to make inline with official Laravel echo package. Including:

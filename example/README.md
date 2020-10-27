@@ -12,11 +12,13 @@ dependencies:
 ```
 
 import `socket_io_client`
+
 ```dart
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 ```
 
 usage
+
 ```dart
 // Create echo instance
 Echo echo = new Echo({

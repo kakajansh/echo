@@ -149,4 +149,8 @@ echo = new Echo({
 });
 ```
 
+### Sample backend
+
+Backend used for example app could be found at [echo-server](https://github.com/kakajansh/echo-server)
+
 Package by [Kakajan SH](http://kakajan.sh)
