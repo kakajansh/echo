@@ -75,7 +75,7 @@ class Echo {
   }
 
   /// Get a private encrypted channel instance by name.
-  Channel encrypted(String channel) {
+  PrivateChannel encrypted(String channel) {
     return this.connector.encryptedPrivateChannel(channel);
   }
 

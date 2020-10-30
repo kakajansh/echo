@@ -1,3 +1,7 @@
+## [0.2.8] - 31.10.2020
+
+- Fix issue with PrivateChannel #33
+
 ## [0.2.6] - 27.10.2020
 
 - Update example app

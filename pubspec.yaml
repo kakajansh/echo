@@ -1,6 +1,6 @@
 name: laravel_echo
 description: Port of official Laravel Echo package for your Flutter apps.
-version: 0.2.6
+version: 0.2.8
 homepage: https://github.com/kakajansh/echo
 
 environment:
