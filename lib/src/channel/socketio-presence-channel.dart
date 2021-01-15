@@ -29,4 +29,15 @@ class SocketIoPresenceChannel extends SocketIoPrivateChannel implements Presence
 
     return this;
   }
+
+  /// Trigger client event on the channel.
+  SocketIoPresenceChannel whisper(String eventName, dynamic data) {
+    this.socket.emit('client event', {
+      'channel': this.name,
+      'event': 'client-$eventName',
+      'data': data,
+    });
+
+    return this;
+  }
 }
