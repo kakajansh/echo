@@ -11,7 +11,7 @@ abstract class Channel {
   void unsubscribe();
 
   /// Listen for a whisper event on the channel instance.
-  Channel listerForWhisper(String event, Function callback) {
+  Channel listenForWhisper(String event, Function callback) {
     return this.listen('.client-$event', callback);
   }
 
