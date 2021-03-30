@@ -18,7 +18,7 @@ class Echo {
   get socket => this.connector.socket;
 
   /// The Echo options.
-  Map<String, dynamic> options;
+  Map<String, dynamic> options = Map<String, dynamic>();
 
   /// Create a new class instance.
   Echo(dynamic options) {

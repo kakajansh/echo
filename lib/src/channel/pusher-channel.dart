@@ -17,7 +17,7 @@ class PusherChannel extends Channel {
   dynamic options;
 
   /// The event formatter.
-  EventFormatter eventFormatter;
+  EventFormatter? eventFormatter;
 
   /// The subcription of the channel.
   dynamic subcription;
@@ -44,13 +44,13 @@ class PusherChannel extends Channel {
 
   /// Listen for an event on the channel instance.
   PusherChannel listen(String event, Function callback) {
-    this.on(this.eventFormatter.format(event), callback);
+    this.on(this.eventFormatter!.format(event), callback);
     return this;
   }
 
   /// Stop listening for an event on the channel instance.
   PusherChannel stopListening(String event) {
-    this.subcription.unbind(this.eventFormatter.format(event));
+    this.subcription.unbind(this.eventFormatter!.format(event));
     return this;
   }
 

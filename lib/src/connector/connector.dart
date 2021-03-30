@@ -38,7 +38,7 @@ abstract class Connector {
   }
 
   /// Extract the CSRF token from the page.
-  String _csrfToken() {
+  String? _csrfToken() {
     if (this.options['csrfToken'] != null) {
       return this.options['csrfToken'];
     }
