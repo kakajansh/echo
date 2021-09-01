@@ -1,11 +1,9 @@
 library laravel_echo;
 
 import 'package:laravel_echo/src/channel/channel.dart';
-import 'package:laravel_echo/src/channel/private-channel.dart';
 import 'package:laravel_echo/src/channel/presence-channel.dart';
 import 'package:laravel_echo/src/connector/socketio-connector.dart';
 import 'package:laravel_echo/src/connector/pusher-connector.dart';
-import 'package:laravel_echo/src/connector/null-connector.dart';
 
 ///
 /// This class is the primary API for interacting with broadcasting.
@@ -14,15 +12,21 @@ class Echo {
   /// The broadcasting connector.
   dynamic connector;
 
-  /// Socket instance
-  get socket => this.connector.socket;
-
   /// The Echo options.
-  Map<String, dynamic> options;
+  late Map<String, dynamic> options;
+
+  // The broadcaster type.
+  late EchoBroadcasterType broadcaster;
 
   /// Create a new class instance.
-  Echo(dynamic options) {
-    this.options = options;
+  Echo({
+    EchoBroadcasterType broadcaster = EchoBroadcasterType.Pusher,
+    required dynamic client,
+    Map<String, dynamic>? options,
+  }) {
+    this.broadcaster = broadcaster;
+    this.options = options ?? {};
+    this.options['client'] = client;
     this.connect();
   }
 
@@ -33,14 +37,10 @@ class Echo {
 
   /// Create a new connection.
   void connect() {
-    if (this.options['broadcaster'] == 'pusher') {
+    if (this.broadcaster == EchoBroadcasterType.Pusher) {
       this.connector = new PusherConnector(this.options);
-    } else if (this.options['broadcaster'] == 'socket.io') {
+    } else if (this.broadcaster == EchoBroadcasterType.SocketIO) {
       this.connector = new SocketIoConnector(this.options);
-    } else if (this.options['broadcaster'] == 'null') {
-      this.connector = new NullConnector(this.options);
-    } else if (this.options['broadcaster'] is Function) {
-      this.connector = this.options['broadcaster'](this.options);
     }
   }
 
@@ -70,17 +70,22 @@ class Echo {
   }
 
   /// Get a private channel instance by name.
-  PrivateChannel private(String channel) {
+  Channel private(String channel) {
     return this.connector.privateChannel(channel);
   }
 
   /// Get a private encrypted channel instance by name.
-  PrivateChannel encrypted(String channel) {
+  Channel encryptedPrivate(String channel) {
     return this.connector.encryptedPrivateChannel(channel);
   }
 
   /// Get the Socket ID for the connection.
-  String sockedId() {
+  String? socketId() {
     return this.connector.socketId();
   }
+}
+
+enum EchoBroadcasterType {
+  SocketIO,
+  Pusher,
 }

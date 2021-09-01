@@ -1,41 +1,41 @@
 PODS:
-  - CryptoSwift (0.15.0)
   - Flutter (1.0.0)
-  - pusher_websocket_flutter (0.1.1):
+  - pusher_client (1.1.4):
     - Flutter
-    - PusherSwift (= 7.0.0)
-  - PusherSwift (7.0.0):
-    - CryptoSwift (~> 0.9)
-    - ReachabilitySwift (= 4.3.0)
-    - Starscream (~> 3.0.5)
-  - ReachabilitySwift (4.3.0)
-  - Starscream (3.0.6)
+    - PusherSwiftWithEncryption (~> 8.0.0)
+  - PusherSwiftWithEncryption (8.0.0):
+    - ReachabilitySwift (~> 5.0)
+    - Sodium (= 0.8.0)
+    - Starscream (~> 3.1)
+  - ReachabilitySwift (5.0.0)
+  - Sodium (0.8.0)
+  - Starscream (3.1.1)
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
-  - pusher_websocket_flutter (from `.symlinks/plugins/pusher_websocket_flutter/ios`)
+  - pusher_client (from `.symlinks/plugins/pusher_client/ios`)
 
 SPEC REPOS:
   trunk:
-    - CryptoSwift
-    - PusherSwift
+    - PusherSwiftWithEncryption
     - ReachabilitySwift
+    - Sodium
     - Starscream
 
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
-  pusher_websocket_flutter:
-    :path: ".symlinks/plugins/pusher_websocket_flutter/ios"
+  pusher_client:
+    :path: ".symlinks/plugins/pusher_client/ios"
 
 SPEC CHECKSUMS:
-  CryptoSwift: 769f58a9e89f64e8796c2e59ce5f002dc81a2438
-  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
-  pusher_websocket_flutter: ff9a11e48f24d2297bf0d143c99119106cd2d81b
-  PusherSwift: d15d6290be0b0b57fd9ac80b03661a6ba24623ec
-  ReachabilitySwift: 408477d1b6ed9779dba301953171e017c31241f3
-  Starscream: ef3ece99d765eeccb67de105bfa143f929026cf5
+  Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
+  pusher_client: 92f815e0297e43f0f118c74f22d3bed56f839ee0
+  PusherSwiftWithEncryption: e8626abf1067a7e1b06afde720934fe1872498e3
+  ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
+  Sodium: 63c0ca312a932e6da481689537d4b35568841bdc
+  Starscream: 4bb2f9942274833f7b4d296a55504dcfc7edb7b0
 
-PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
+PODFILE CHECKSUM: f723409e218cf48eea2b2bb6bd38d304d91fecfe
 
-COCOAPODS: 1.10.0
+COCOAPODS: 1.10.2

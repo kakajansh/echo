@@ -11,19 +11,19 @@ class PusherChannel extends Channel {
   dynamic pusher;
 
   /// The name of the channel.
-  dynamic name;
+  late String name;
 
   /// Channel options.
-  dynamic options;
+  late Map<String, dynamic> options;
 
   /// The event formatter.
-  EventFormatter eventFormatter;
+  late EventFormatter eventFormatter;
 
   /// The subcription of the channel.
   dynamic subcription;
 
   /// Create a new class instance.
-  PusherChannel(dynamic pusher, String name, dynamic options) {
+  PusherChannel(dynamic pusher, String name, Map<String, dynamic> options) {
     this.name = name;
     this.pusher = pusher;
     this.options = options;
@@ -45,12 +45,49 @@ class PusherChannel extends Channel {
   /// Listen for an event on the channel instance.
   PusherChannel listen(String event, Function callback) {
     this.on(this.eventFormatter.format(event), callback);
+
+    return this;
+  }
+
+  /// Listen for all events on the channel instance.
+  PusherChannel listenToAll(Function callback) {
+    this.subcription.bind_global((String event, dynamic data) {
+      if (event.startsWith('pusher:')) {
+        return;
+      }
+
+      String namespace =
+          this.options['namespace'].replaceAll(new RegExp(r'\.'), '\\');
+
+      String formattedEvent = event.startsWith(namespace)
+          ? event.substring(namespace.length + 1)
+          : '.$event';
+
+      callback(formattedEvent, data);
+    });
+
     return this;
   }
 
   /// Stop listening for an event on the channel instance.
-  PusherChannel stopListening(String event) {
-    this.subcription.unbind(this.eventFormatter.format(event));
+  PusherChannel stopListening(String event, [Function? callback]) {
+    if (callback != null) {
+      this.subcription.unbind(this.eventFormatter.format(event), callback);
+    } else {
+      this.subcription.unbind(this.eventFormatter.format(event));
+    }
+
+    return this;
+  }
+
+  /// Stop listening for all events on the channel instance.
+  PusherChannel stopListeningAll([Function? callback]) {
+    if (callback != null) {
+      this.subcription.unbind_global(callback);
+    } else {
+      this.subcription.unbind_global();
+    }
+
     return this;
   }
 

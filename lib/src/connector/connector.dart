@@ -3,47 +3,24 @@ import 'package:laravel_echo/src/channel/presence-channel.dart';
 
 abstract class Connector {
   /// Default connector options.
-  var _defaultOptions = {
+  Map<String, dynamic> _defaultOptions = {
     'auth': {
       'headers': {},
     },
-    'authEndpoint': '/broadcasting/auth',
-    'broadcaster': 'socket.io',
-    'crsfToken': null,
+    'authEndpoint': '/api/broadcasting/auth',
     'host': 'http://localhost:6001',
     'key': null,
     'namespace': 'App.Events',
-    'transports': ['websocket'],
     'autoConnect': false
   };
 
   /// Connector options.
-  dynamic options;
+  late Map<String, dynamic> options;
 
   /// Create a new class instance.
-  Connector(dynamic options) {
-    // this.options = options;
-    this._setOptions(options);
+  Connector(Map<String, dynamic> options) {
+    this.options = _defaultOptions..addAll(options);
     this.connect();
-  }
-
-  /// Merge the custom options with the defaults.
-  void _setOptions(dynamic options) {
-    _defaultOptions.addAll(options);
-    this.options = this._defaultOptions;
-
-    if (this._csrfToken() != null) {
-      this.options['auth'].headers['X-CSRF-TOKEN'] = this._csrfToken();
-    }
-  }
-
-  /// Extract the CSRF token from the page.
-  String _csrfToken() {
-    if (this.options['csrfToken'] != null) {
-      return this.options['csrfToken'];
-    }
-
-    return null;
   }
 
   /// Create a fresh connection.
@@ -65,7 +42,7 @@ abstract class Connector {
   void leaveChannel(String channel);
 
   /// Get the socket_id of the connection.
-  String socketId();
+  String? socketId();
 
   /// Disconnect from the Echo server.
   void disconnect();

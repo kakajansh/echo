@@ -9,50 +9,46 @@ class SocketIoChannel extends Channel {
   dynamic socket;
 
   /// The name of the channel.
-  dynamic name;
+  late String name;
 
   /// Channel options.
-  dynamic options;
+  late Map<String, dynamic> options;
 
   /// The event formatter.
-  EventFormatter eventFormatter;
+  late EventFormatter eventFormatter;
 
-  /// The event callbacks applied to the channel.
-  dynamic events = {};
+  /// The event callbacks applied to the socket.
+  Map<String, dynamic> events = {};
+
+  /// User supplied callbacks for events on this channel
+  Map<String, List> _listeners = {};
 
   /// Create a new class instance.
-  SocketIoChannel(dynamic socket, String name, dynamic options) {
+  SocketIoChannel(dynamic socket, String name, Map<String, dynamic> options) {
     this.name = name;
     this.socket = socket;
     this.options = options;
     this.eventFormatter = new EventFormatter(this.options['namespace']);
 
     this.subscribe();
-    this.configureReconnector();
   }
 
   /// Subscribe to a Socket.io channel.
   void subscribe() {
-    this.socket.emit(
-      'subscribe',
-      {
-        'channel': this.name,
-        'auth': this.options['auth'] ?? {},
-      },
-    );
+    this.socket.emit('subscribe', {
+      'channel': this.name,
+      'auth': this.options['auth'] ?? {},
+    });
   }
 
   /// Unsubscribe from channel and ubind event callbacks.
   void unsubscribe() {
     this.unbind();
 
-    this.socket.emit(
-      'unsubscribe',
-      {
-        'channel': this.name,
-        'auth': this.options['auth'] ?? {},
-      },
-    );
+    this.socket.emit('unsubscribe', {
+      'channel': this.name,
+      'auth': this.options['auth'] ?? {},
+    });
   }
 
   /// Listen for an event on the channel instance.
@@ -64,10 +60,8 @@ class SocketIoChannel extends Channel {
 
   /// Stop listening for an event on the channel instance.
   @override
-  SocketIoChannel stopListening(String event) {
-    dynamic name = this.eventFormatter.format(event);
-    this.socket.off(name);
-    this.events.remove(name);
+  SocketIoChannel stopListening(String event, [Function? callback]) {
+    this._unbindEvent(this.eventFormatter.format(event), callback);
 
     return this;
   }
@@ -85,41 +79,48 @@ class SocketIoChannel extends Channel {
   }
 
   /// Bind the channel's socket to an event and store the callback.
-  void on(String event, Function callback) {
-    dynamic listener = (data) {
-      if (this.name == data[0]) {
-        callback(data[1]);
-      }
-    };
+  SocketIoChannel on(String event, Function callback) {
+    this._listeners[event] = this._listeners[event] ?? [];
 
-    this.socket.on(event, listener);
-    this.bind(event, listener);
-  }
+    if (this.events[event] == null) {
+      this.events[event] = (props) {
+        String channel = props[0];
+        dynamic data = props[1];
+        if (this.name == channel && this._listeners[event]!.isNotEmpty) {
+          this._listeners[event]!.forEach((cb) => cb(data));
+        }
+      };
 
-  /// Attach a 'reconnect' listener and bind the event.
-  void configureReconnector() {
-    dynamic listener = (_) {
-      this.subscribe();
-    };
+      this.socket.on(event, this.events[event]);
+    }
 
-    this.socket.on('reconnect', listener);
-    this.bind('reconnect', listener);
-  }
+    this._listeners[event]?.add(callback);
 
-  /// Bind the channel's socket to an event and store the callback.
-  void bind(String event, Function callback) {
-    this.events[event] = this.events[event] ?? [];
-    this.events[event].add(callback);
+    return this;
   }
 
   /// Unbind the channel's socket from all stored event callbacks.
   void unbind() {
-    this.events.keys.forEach((event) {
-      this.events[event].forEach((callback) {
-        this.socket.off(event, callback);
-      });
+    List.from(events.keys).forEach((event) => this._unbindEvent(event));
+  }
 
-      this.events[event] = null;
-    });
+  /// Unbind the listeners for the given event.
+  void _unbindEvent(String event, [Function? callback]) {
+    this._listeners[event] = this._listeners[event] ?? [];
+
+    if (callback != null) {
+      this._listeners[event] =
+          this._listeners[event]!.where((cb) => cb != callback).toList();
+    }
+
+    if (callback == null || this._listeners[event]!.isEmpty) {
+      if (this.events[event] != null) {
+        this.socket.off(event, this.events[event]);
+
+        this.events.remove(event);
+      }
+
+      this._listeners.remove(event);
+    }
   }
 }

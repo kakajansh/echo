@@ -1,3 +1,13 @@
+## [1.0.0-beta.1] - 28.08.2021
+
+- Breaking change
+- Switch recommended **Pusher** library
+- Supports null-safety
+
+## [0.2.9] - 15.01.2021
+
+- Fix typo [#35](https://github.com/kakajansh/echo/pull/35)
+
 ## [0.2.8] - 31.10.2020
 
 - Fix issue with PrivateChannel #33

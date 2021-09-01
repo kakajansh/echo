@@ -3,11 +3,12 @@
 ///
 abstract class Channel {
   /// The Echo options.
-  dynamic options;
+  late Map<String, dynamic> options;
 
   /// Listen for an event on the channel instance.
   Channel listen(String event, Function callback);
 
+  /// Unsubscribe channel
   void unsubscribe();
 
   /// Listen for a whisper event on the channel instance.
@@ -24,11 +25,11 @@ abstract class Channel {
   }
 
   /// Stop listening to an event on the channel instance.
-  Channel stopListening(String event);
+  Channel stopListening(String event, [Function? callback]);
 
   /// Stop listening for a whisper event on the channel instance.
-  Channel stopListeningForWhisper(String event) {
-    return stopListening('.client-$event');
+  Channel stopListeningForWhisper(String event, [Function? callback]) {
+    return stopListening('.client-$event', callback);
   }
 
   /// Register a callback to be called anytime a subscription succeeds.

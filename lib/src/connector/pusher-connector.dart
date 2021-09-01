@@ -2,6 +2,7 @@ import 'package:laravel_echo/src/connector/connector.dart';
 import 'package:laravel_echo/src/channel/pusher-channel.dart';
 import 'package:laravel_echo/src/channel/pusher-private-channel.dart';
 import 'package:laravel_echo/src/channel/pusher-presence-channel.dart';
+import 'package:laravel_echo/src/channel/pusher-encrypted-private-channel.dart';
 
 ///
 /// This class creates a null connector.
@@ -11,16 +12,15 @@ class PusherConnector extends Connector {
   dynamic pusher;
 
   /// All of the subscribed channel names.
-  dynamic channels = {};
+  Map<String, PusherChannel> channels = {};
 
-  PusherConnector(dynamic options) : super(options);
+  PusherConnector(Map<String, dynamic> options) : super(options);
 
   /// Create a fresh Pusher connection.
   @override
   void connect() {
     this.pusher = this.options['client'];
-
-    return this.pusher;
+    this.pusher.connect();
   }
 
   /// Listen for an event on a channel instance.
@@ -35,7 +35,7 @@ class PusherConnector extends Connector {
       this.channels[name] = new PusherChannel(this.pusher, name, this.options);
     }
 
-    return this.channels[name];
+    return this.channels[name] as PusherChannel;
   }
 
   /// Get a private channel instance by name.
@@ -48,20 +48,23 @@ class PusherConnector extends Connector {
         this.options,
       );
     }
-    return this.channels['private-$name'];
+
+    return this.channels['private-$name'] as PusherPrivateChannel;
   }
 
   /// Get a private encrypted channel instance by name.
-  PusherPrivateChannel encryptedPrivateChannel(String name) {
+  PusherEncryptedPrivateChannel encryptedPrivateChannel(String name) {
     if (this.channels['private-encrypted-$name'] == null) {
-      this.channels['private-encrypted-$name'] = new PusherPrivateChannel(
+      this.channels['private-encrypted-$name'] =
+          new PusherEncryptedPrivateChannel(
         this.pusher,
         'private-encrypted-$name',
         this.options,
       );
     }
 
-    return this.channels['private-encrypted-$name'];
+    return this.channels['private-encrypted-$name']
+        as PusherEncryptedPrivateChannel;
   }
 
   /// Get a presence channel instance by name.
@@ -74,31 +77,30 @@ class PusherConnector extends Connector {
         this.options,
       );
     }
-    return this.channels['presence-$name'];
+
+    return this.channels['presence-$name'] as PusherPresenceChannel;
   }
 
   /// Leave the given channel, as well as its private and presence variants.
   @override
   void leave(String name) {
-    dynamic channels = [name, 'private-$name', 'presence-$name'];
+    List<String> channels = [name, 'private-$name', 'presence-$name'];
 
-    channels.forEach((name) {
-      this.leaveChannel(name);
-    });
+    channels.forEach((String name) => this.leaveChannel(name));
   }
 
   /// Leave the given channel.
   @override
   void leaveChannel(String name) {
     if (this.channels[name] != null) {
-      this.channels[name].unsubscribe();
+      this.channels[name]!.unsubscribe();
       this.channels.remove(name);
     }
   }
 
   /// Get the socket ID for the connection.
   @override
-  String socketId() {
+  String? socketId() {
     return this.pusher.getSocketId();
   }
 

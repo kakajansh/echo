@@ -11,29 +11,19 @@ class SocketIoConnector extends Connector {
   dynamic socket;
 
   /// All of the subscribed channel names.
-  dynamic channels = {};
+  Map<String, SocketIoChannel> channels = {};
 
-  SocketIoConnector(dynamic options) : super(options);
+  SocketIoConnector(Map<String, dynamic> options) : super(options);
 
   /// Create a fresh Socket.io connection.
   @override
   void connect() {
-    dynamic io = this.getSocketIO();
-
-    this.socket = io(this.options['host'], this.options);
-
+    this.socket = this.options['client'];
     this.socket.connect();
 
-    return this.socket;
-  }
-
-  /// Get socket.io module from options.
-  dynamic getSocketIO() {
-    if (this.options['client'] != null) {
-      return this.options['client'];
-    }
-
-    throw new Exception('Socket.io client not found. Should be passed via options.client');
+    this.socket.on('reconnect', (_) {
+      this.channels.values.forEach((channel) => channel.subscribe());
+    });
   }
 
   /// Listen for an event on a channel instance.
@@ -45,10 +35,11 @@ class SocketIoConnector extends Connector {
   @override
   SocketIoChannel channel(String name) {
     if (this.channels[name] == null) {
-      this.channels[name] = new SocketIoChannel(this.socket, name, this.options);
+      this.channels[name] =
+          new SocketIoChannel(this.socket, name, this.options);
     }
 
-    return this.channels[name];
+    return this.channels[name] as SocketIoChannel;
   }
 
   /// Get a private channel instance by name.
@@ -62,7 +53,7 @@ class SocketIoConnector extends Connector {
       );
     }
 
-    return this.channels['private-$name'];
+    return this.channels['private-$name'] as SocketIoPrivateChannel;
   }
 
   /// Get a presence channel instance by name.
@@ -76,31 +67,29 @@ class SocketIoConnector extends Connector {
       );
     }
 
-    return this.channels['presence-$name'];
+    return this.channels['presence-$name'] as SocketIoPresenceChannel;
   }
 
   /// Leave the given channel, as well as its private and presence variants.
   @override
   void leave(String name) {
-    dynamic channels = [name, 'private-$name', 'presence-$name'];
+    List<String> channels = [name, 'private-$name', 'presence-$name'];
 
-    channels.forEach((name) {
-      this.leaveChannel(name);
-    });
+    channels.forEach((name) => this.leaveChannel(name));
   }
 
   /// Leave the given channel.
   @override
   void leaveChannel(String name) {
     if (this.channels[name] != null) {
-      this.channels[name].unsubscribe();
+      this.channels[name]!.unsubscribe();
       this.channels.remove(name);
     }
   }
 
   /// Get the socket ID for the connection.
   @override
-  String socketId() {
+  String? socketId() {
     return this.socket.id;
   }
 
