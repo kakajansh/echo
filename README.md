@@ -23,7 +23,7 @@ In your `pubspec.yaml` file:
 dependencies:
   ...
   pusher_client: ^2.0.0
-  laravel_echo: ^1.0.0
+  laravel_echo: ^1.0.0-beta.1
 ```
 
 import `laravel_echo` and `pusher_client`
@@ -84,7 +84,7 @@ In your `pubspec.yaml` file:
 dependencies:
   ...
   socket_io_client: ^1.0.1
-  laravel_echo: ^1.0.0
+  laravel_echo: ^1.0.0-beta.1
 ```
 
 import `socket_io_client`
