@@ -22,6 +22,7 @@ Echo initSocketIOClient() {
       },
     },
   );
-
+  
+  log('Socket ID: ${socket.sockedId()}');
   return echo;
 }
