@@ -84,10 +84,12 @@ class SocketIoChannel extends Channel {
 
     if (this.events[event] == null) {
       this.events[event] = (props) {
-        String channel = props[0];
-        dynamic data = props[1];
-        if (this.name == channel && this._listeners[event]!.isNotEmpty) {
-          this._listeners[event]!.forEach((cb) => cb(data));
+        if(props is List&&props.length>1){
+          String channel = props[0];
+          dynamic data = props[1];
+          if (this.name == channel && this._listeners[event]!.isNotEmpty) {
+            this._listeners[event]!.forEach((cb) => cb(data));
+          }
         }
       };
 
